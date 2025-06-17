@@ -13,10 +13,12 @@
   "keywords": [
     "pdf",
     "docx",
+    "odt",
     "page-count",
-    "document",
-    "pages",
-    "nextjs",
+    "doc-page-count",
+    "page-counter",
+    "document-page-counter",
+    "NextJs",
     "api"
   ],
   "author": "Your Name",
