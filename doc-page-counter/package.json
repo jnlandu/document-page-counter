@@ -1,0 +1,51 @@
+{
+  "name": "document-page-counter",
+  "version": "1.0.0",
+  "description": "A utility library for counting pages in PDF and DOCX documents",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "pdf",
+    "docx",
+    "page-count",
+    "document",
+    "pages",
+    "nextjs",
+    "api"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "fast-xml-parser": "^4.3.2",
+    "mammoth": "^1.6.0",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0"
+  },
+  "peerDependencies": {
+    "next": "^13.0.0 || ^14.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jnlandu/document-page-counter.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
