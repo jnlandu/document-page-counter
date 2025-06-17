@@ -4,8 +4,8 @@
     "lib": ["ES2020"],
     "module": "commonjs",
     "declaration": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "./doc-page-counter/dist",
+    "rootDir": "./doc-page-counter/src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -14,11 +14,12 @@
     "resolveJsonModule": true
   },
   "include": [
-    "src/**/*"
+    "./doc-page-counter/src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "dist",
+    "./doc-page-counter/dist",
     "**/*.test.ts"
   ]
 }
+
