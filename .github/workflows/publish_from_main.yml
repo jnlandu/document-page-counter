@@ -10,6 +10,13 @@ on:
     types: [closed]
     paths:
       - 'doc-page-counter/doc-page-counter/**'
+  workflow_dispatch:  # Enables manual trigger
+   inputs:
+    force-publish:
+      description: 'Force publish even if version exists'
+      required: false
+      default: false
+      type: boolean
 
 jobs:
   publish:
