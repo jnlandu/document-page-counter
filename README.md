@@ -1,65 +1,44 @@
 # Document Page Counter
 
-A TypeScript library for counting pages in PDF and DOCX documents with multiple fallback strategies.
+A simple TypeScript library that counts pages in PDF and DOCX documents. It tries multiple methods to make sure you always get an answer.
 
-## Features
+## What it does
 
-- **PDF Support**: Uses `pdf-lib` to extract exact page count from PDF metadata
-- **DOCX Support**: Extracts page count from document properties or estimates from word count
-- **Fallback Strategies**: Multiple methods to ensure you always get a page count
-- **Next.js Integration**: Pre-built API route handlers
-- **TypeScript**: Full type safety and IntelliSense support
-- **Configurable**: Customize heuristics for different document types
+- Counts pages in PDF files using document metadata
+- Counts pages in DOCX files from properties or word count estimates
+- Falls back to smart guessing if the usual methods don't work
+- Works great with Next.js projects
+- Written in TypeScript for better development experience
 
-## Installation
+## Get started
 
 ```bash
 npm install document-page-counter
 ```
 
-## Quick Start
-
-### Basic Usage
+## Basic example
 
 ```typescript
 import { countDocumentPages } from 'document-page-counter';
 
-// From a File object
 const file = document.getElementById('fileInput').files[0];
 const buffer = await file.arrayBuffer();
 const result = await countDocumentPages(buffer, file.type);
 
-console.log(`Document has ${result.pages} pages (method: ${result.method})`);
+console.log(`Your document has ${result.pages} pages`);
 ```
 
-### Class-based Usage
+## Using with Next.js
 
-```typescript
-import { DocumentPageCounter } from 'document-page-counter';
-
-const counter = new DocumentPageCounter({
-  wordsPerPage: 300, // Custom words per page estimate
-  pdfBytesPerPage: 50000, // Custom PDF size heuristic
-  docxBytesPerPage: 20000 // Custom DOCX size heuristic
-});
-
-const result = await counter.countPagesFromFile(file);
-```
-
-### Next.js API Routes
-
-#### Option 1: Use the pre-built handler
+This was built for Next.js API routes, so it's super easy to use:
 
 ```typescript
 // app/api/count-pages/route.ts
 import { createPageCountHandler } from 'document-page-counter';
 
-export const POST = createPageCountHandler({
-  wordsPerPage: 250
-});
+// That's it! One line and you're done
+export const POST = createPageCountHandler();
 ```
-
-#### Option 2: Manual integration
 
 ```typescript
 // app/api/count-pages/route.ts
@@ -80,84 +59,53 @@ export async function POST(request: Request) {
     
     return NextResponse.json({ 
       pages: result.pages,
-      method: result.method 
     });
   } catch (error) {
     return NextResponse.json({ 
-      error: 'Failed to count pages' 
+      error: 'Could not count pages' 
     }, { status: 500 });
   }
 }
 ```
 
-## API Reference
+## Demo
+Check out the [demo folder](../demo) for a complete Next.js example with file upload and both server/client-side processing.
 
-### `countDocumentPages(buffer, mimeType, options?)`
+## How it works
 
-Count pages in a document buffer.
+The library tries different approaches:
+1. **PDF files**: Reads page count from document metadata, falls back to size estimation
+2. **DOCX files**: Checks document properties, estimates from word count, or uses file size
 
-**Parameters:**
-- `buffer: ArrayBuffer` - The document buffer
-- `mimeType: string` - MIME type ('application/pdf' or 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-- `options?: PageCountOptions` - Configuration options
-
-**Returns:** `Promise<PageCountResult>`
-
-### `DocumentPageCounter`
-
-Class for counting pages with configurable options.
-
-**Constructor Options:**
-- `wordsPerPage?: number` - Words per page for DOCX estimation (default: 250)
-- `pdfBytesPerPage?: number` - Bytes per page for PDF size estimation (default: 40,000)
-- `docxBytesPerPage?: number` - Bytes per page for DOCX size estimation (default: 15,000)
-
-**Methods:**
-- `countPages(buffer, mimeType)` - Count pages from buffer
-- `countPagesFromFile(file)` - Count pages from File object
-- `countPdfPages(buffer)` - Count PDF pages specifically
-- `countDocxPages(buffer)` - Count DOCX pages specifically
-
-### `PageCountResult`
-
+You'll get a result like this:
 ```typescript
-interface PageCountResult {
-  pages: number;
-  method: 'metadata' | 'heuristic' | 'word-count';
+{
+  pages: 5,
+  method: 'metadata' // or 'word-count' or 'heuristic'
 }
 ```
 
-- `metadata`: Extracted from document properties (most accurate)
-- `word-count`: Estimated from word count (DOCX fallback)
-- `heuristic`: Estimated from file size (last resort)
+## Supported files
 
-## Supported File Types
+- PDF files (`application/pdf`)
+- Word documents (`application/vnd.openxmlformats-officedocument.wordprocessingml.document`)
 
-- **PDF**: `application/pdf`
-- **DOCX**: `application/vnd.openxmlformats-officedocument.wordprocessingml.document`
+## Why this exists
+<!-- I looked up on the internet tutorials or blogpost on how to count pages for docx files to automayically guess the cost of a submitted document to a the plateform [https://www.cridupn-rdc.cd](cridupn) that I build for the CRDIUPn research center. Unfortunately, the resukt was unsatisfactory. The same happened when I tried `Claude` or `GPT`, thought `GPT` gave a quite interesting and customable snippets. -->
 
-## Error Handling
+ I got tired of writing the same page counting code over and over. So I made this library to handle the annoying parts (parsing different file formats, dealing with errors, fallback strategies) so you don't have to.
 
-The library uses fallback strategies to ensure you always get a page count:
+## Problems?
+ If something breaks or doesn't work the way you expect, please open an issue. The library tries to be pretty robust, but documents can be weird.
 
-1. **PDF**: Try to parse with pdf-lib → fallback to size estimation
-2. **DOCX**: Try document properties → word count estimation → size estimation
+## Like this project?
+
+Give it a ⭐ on GitHub if you find it useful! Your support helps make open source projects better.
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Found a bug or want to add a feature? Pull requests are welcome! Fork the repo, make your changes, and submit a PR.
 
 ## License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Dependencies
-
-- `jszip` - For reading DOCX files
-- `fast-xml-parser` - For parsing XML in DOCX files  
-- `mammoth` - For extracting text from DOCX files
-- `pdf-lib` - For reading PDF files
+MIT License - do whatever you want with it.
