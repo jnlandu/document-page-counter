@@ -1,0 +1,37 @@
+name: Publish to NPM on Every Push to Main
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'doc-page-counter/document-page-counter/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./doc-page-counter/document-page-counter
+        
+      - name: Build package
+        run: npm run build
+        working-directory: ./doc-page-counter/document-page-counter
+        
+      - name: Auto-increment version
+        run: npm version patch
+        working-directory: ./doc-page-counter/document-page-counter
+        
+      - name: Publish to NPM
+        run: npm publish
+        working-directory: ./doc-page-counter/document-page-counter
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
