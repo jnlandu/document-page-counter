@@ -95,9 +95,6 @@ You'll get a result like this:
 
  I got tired of writing the same page counting code over and over. So I made this library to handle the annoying parts (parsing different file formats, dealing with errors, fallback strategies) so you don't have to.
 
-## Problems?
- If something breaks or doesn't work the way you expect, please open an issue. The library tries to be pretty robust, but documents can be weird.
-
 ## Like this project?
 
 Give it a ⭐ on GitHub if you find it useful! Your support helps make open source projects better.
