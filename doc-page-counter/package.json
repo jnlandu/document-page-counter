@@ -1,6 +1,6 @@
 {
   "name": "document-page-counter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A utility library for counting pages in PDF and DOCX documents",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
