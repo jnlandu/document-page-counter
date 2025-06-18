@@ -1,5 +1,6 @@
 name: Publish doc-page-counter to NPM on every push to main or PR merge
 
+
 on:
   push:
     branches: [main]
@@ -17,6 +18,10 @@ on:
       required: false
       default: 'false'
 
+permissions:
+  contents: write  # Required to push version bumps
+  issues: write    # Required to comment on PRs
+  packages: write  # Required to publish to NPM
 
 jobs:
   publish:
