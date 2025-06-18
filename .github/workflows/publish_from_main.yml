@@ -1,4 +1,4 @@
-name: Publish to NPM on every push to main or PR merge
+name: Publish doc-page-counter to NPM on every push to main or PR merge
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'doc-page-counter/doc-page-counter/**'
   pull_request:
     branches: [main]
-    types: [closed]
+    types: [closed] 
     paths:
       - 'doc-page-counter/doc-page-counter/**'
   workflow_dispatch:  # Enables manual trigger
@@ -15,18 +15,18 @@ on:
     force-publish:
       description: 'Force publish even if version exists'
       required: false
-      default: false
-      type: boolean
+      default: 'false'
+
 
 jobs:
   publish:
-    if: github.event_name == 'push' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           
+      # ----------------- Setup Node.js and NPM -----------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
