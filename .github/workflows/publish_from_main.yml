@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - 'document-page-counter/doc-page-counter/**'
+      - './doc-page-counter/**'
   pull_request:
     branches: [main]
     types: [closed] 
     paths:
-      - 'document-page-counter/doc-page-counter/**'
+      - './doc-page-counter/**'
   workflow_dispatch:  # Enables manual trigger
    inputs:
     force-publish:
@@ -40,11 +40,11 @@ jobs:
           
       - name: Install dependencies
         run: npm ci
-        working-directory: ./document-page-counter/doc-page-counter
+        working-directory: ./doc-page-counter
         
       - name: Build package
         run: npm run build
-        working-directory: ./document-page-counter/doc-page-counter
+        working-directory: ./doc-page-counter
         
       - name: Check if version bump needed
         id: version-check
@@ -57,7 +57,7 @@ jobs:
             echo "needs-bump=false" >> $GITHUB_OUTPUT
             echo "current-version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
           fi
-        working-directory: ./document-page-counter/doc-page-counter
+        working-directory: ./doc-page-counter
         
       - name: Auto-increment version
         if: steps.version-check.outputs.needs-bump == 'true'
@@ -66,18 +66,18 @@ jobs:
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "new-version=$NEW_VERSION" >> $GITHUB_OUTPUT
         id: bump-version
-        working-directory: ./document-page-counter/doc-page-counter
+        working-directory: ./doc-page-counter
         
       - name: Commit version bump
         if: steps.version-check.outputs.needs-bump == 'true'
         run: |
-          git add document-page-counter/doc-page-counter/package.json
+          git add ./doc-page-counter/package.json
           git commit -m "chore: bump version to ${{ steps.bump-version.outputs.new-version }} [skip ci]"
           git push
         
       - name: Publish to NPM
         run: npm publish
-        working-directory: ./document-page-counter/doc-page-counter
+        working-directory: ./doc-page-counter
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           
@@ -86,7 +86,7 @@ jobs:
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-        working-directory: ./document-page-counter/doc-page-counter
+        working-directory: ./doc-page-counter
         
       - name: Comment on PR
         if: github.event_name == 'pull_request'
