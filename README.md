@@ -91,17 +91,12 @@ You'll get a result like this:
 - Word documents (`application/vnd.openxmlformats-officedocument.wordprocessingml.document`)
 
 ## Why this exists
-<!-- I looked up on the internet tutorials or blogpost on how to count pages for docx files to automayically guess the cost of a submitted document to a the plateform [https://www.cridupn-rdc.cd](cridupn) that I build for the CRDIUPn research center. Unfortunately, the resukt was unsatisfactory. The same happened when I tried `Claude` or `GPT`, thought `GPT` gave a quite interesting and customable snippets. -->
 
- I got tired of writing the same page counting code over and over. So I made this library to handle the annoying parts (parsing different file formats, dealing with errors, fallback strategies) so you don't have to.
+I got tired of writing the same page counting code over and over. So I made this library to handle the annoying parts (parsing different file formats, dealing with errors, fallback strategies) so you don't have to.
 
 ## Like this project?
 
-Give it a ⭐ on GitHub if you find it useful! Your support helps make open source projects better.
-
-## Contributing
-
-Found a bug or want to add a feature? Pull requests are welcome! Fork the repo, make your changes, and submit a PR.
+Give it a ⭐ on GitHub if you find it useful! 
 
 ## License
 
